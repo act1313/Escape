@@ -19,7 +19,7 @@ def draw_window(lives):
     WIN.blit(BACKGROUND, (0, 0))
     # Rendering the font into displayable text
     riddle_text = RIDDLE_FONT.render("This is where the riddle will go so okay hello, chicken nuggets ", 1, WHITE)
-    lives_text = LIVES_FONT.render("Lives: ", lives, 1, WHITE)
+    lives_text = LIVES_FONT.render(f"Lives: {lives}", 1, WHITE)
     # Making the text show on the screen
     WIN.blit(riddle_text, (WIDTH // 2 - riddle_text.get_width() // 2, 10))
     WIN.blit(lives_text, (WIDTH - 100, 10))
