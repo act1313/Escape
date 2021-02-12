@@ -22,6 +22,9 @@ def main():
 
     binArea = pygame.Rect(WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height(), 40, 70)
     sinkArea = pygame.Rect(640, 220, 50, 75)
+    lightoneArea = pygame.Rect(375, 100, 190, 35)
+    lighttwoArea = pygame.Rect(665, 105, 115, 35)
+    lightthreeArea = pygame.Rect(475, 295, 375, 35)
 
     def draw_items():
         # render the images to display
@@ -46,7 +49,14 @@ def main():
 
 
     run = True
-    items = 3
+    items = 5
+
+    bin_clicked = True
+    sink_clicked = True
+    light_one_clicked = True
+    light_two_clicked = True
+    light_three_clicked = True
+
     clock = pygame.time.Clock()
     while run:
         clock.tick(FPS)
@@ -58,11 +68,30 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if binArea.collidepoint(event.pos):
+                    if binArea.collidepoint(event.pos) and bin_clicked == True:
+                        bin_clicked = False
+                        items -= 1
                         print("bin")
-                        
-                    if sinkArea.collidepoint(event.pos):
+
+                    if sinkArea.collidepoint(event.pos) and sink_clicked == True:
+                        sink_clicked = False
+                        items -= 1
                         print("sink")
+
+                    if lightoneArea.collidepoint(event.pos) and light_one_clicked == True:
+                        light_one_clicked = False
+                        items -= 1
+                        print("light one")
+
+                    if lighttwoArea.collidepoint(event.pos) and light_two_clicked == True:
+                        light_two_clicked = False
+                        items -= 1
+                        print("light two")
+
+                    if lightthreeArea.collidepoint(event.pos) and light_three_clicked == True:
+                        light_three_clicked = False
+                        items -= 1
+                        print("light three")
 
     pygame.quit()
 
