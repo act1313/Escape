@@ -13,39 +13,40 @@ pygame.display.set_caption("Escape Room")
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'house.jpg')), (WIDTH, HEIGHT))
 RECYCLING_BIN = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'bin.PNG')), (40, 70))
 SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png')), (50, 75))
-WHITE =  pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
+WHITE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
 LIVES_FONT = pygame.font.SysFont("comicsans", 25)
 RIDDLE_FONT = pygame.font.SysFont("comicsans", 28)
 
+
 def level_one():
     def draw_items():
-            # render the images to display
-            WIN.blit(RECYCLING_BIN, (WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height()))
-            WIN.blit(SINK, (640, 220))
+        # render the images to display
+        WIN.blit(RECYCLING_BIN, (WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height()))
+        WIN.blit(SINK, (640, 220))
 
-    def window(items):
-            WIN.blit(BACKGROUND, (0, 0))
-            # Rendering the font into displayable text
-            riddle_text = RIDDLE_FONT.render("This family left for the day. Click the things that are", 1,BLACK)
-            riddle_second_half_text = RIDDLE_FONT.render(" incorrect and don't help climate change.", 1, BLACK)
-            lives_text = LIVES_FONT.render(f"Items left: {items}", 1, BLACK)
+    def window(correct_items):
+        WIN.blit(BACKGROUND, (0, 0))
+        # Rendering the font into displayable text
+        riddle_text = RIDDLE_FONT.render("This family left for the day. Click the things that are", True, BLACK)
+        riddle_second_half_text = RIDDLE_FONT.render(" incorrect and don't help climate change.", True, BLACK)
+        lives_text = LIVES_FONT.render(f"Items left: {correct_items}", True, BLACK)
 
-            # Making the text show on the screen
-            WIN.blit(riddle_text, (WIDTH // 2 - riddle_text.get_width() // 2, 10))
-            WIN.blit(riddle_second_half_text, (WIDTH // 2 - riddle_second_half_text.get_width() // 2, 50))
-            WIN.blit(lives_text, (WIDTH - 125, 10))
+        # Making the text show on the screen
+        WIN.blit(riddle_text, (WIDTH // 2 - riddle_text.get_width() // 2, 10))
+        WIN.blit(riddle_second_half_text, (WIDTH // 2 - riddle_second_half_text.get_width() // 2, 50))
+        WIN.blit(lives_text, (WIDTH - 125, 10))
 
-            draw_items()
+        draw_items()
 
-            # showing the images on the screen
-            pygame.display.update()
+        # showing the images on the screen
+        pygame.display.update()
 
-    # the hitboxes for the areas
-    binArea = pygame.Rect(WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height(), 40, 70)
-    sinkArea = pygame.Rect(640, 220, 50, 75)
-    lightoneArea = pygame.Rect(375, 100, 190, 35)
-    lighttwoArea = pygame.Rect(665, 105, 115, 35)
-    lightthreeArea = pygame.Rect(475, 295, 375, 35)
+    # the hit boxes for the areas
+    bin_area = pygame.Rect(WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height(), 40, 70)
+    sink_area = pygame.Rect(640, 220, 50, 75)
+    light_one_area = pygame.Rect(375, 100, 190, 35)
+    light_two_area = pygame.Rect(665, 105, 115, 35)
+    light_three_area = pygame.Rect(475, 295, 375, 35)
 
     run = True
     items = 5
@@ -67,27 +68,27 @@ def level_one():
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if binArea.collidepoint(event.pos) and bin_clicked == True:
+                    if bin_area.collidepoint(event.pos) and bin_clicked == True:
                         bin_clicked = False
                         items -= 1
                         print("bin")
 
-                    if sinkArea.collidepoint(event.pos) and sink_clicked == True:
+                    if sink_area.collidepoint(event.pos) and sink_clicked == True:
                         sink_clicked = False
                         items -= 1
                         print("sink")
 
-                    if lightoneArea.collidepoint(event.pos) and light_one_clicked == True:
+                    if light_one_area.collidepoint(event.pos) and light_one_clicked == True:
                         light_one_clicked = False
                         items -= 1
                         print("light one")
 
-                    if lighttwoArea.collidepoint(event.pos) and light_two_clicked == True:
+                    if light_two_area.collidepoint(event.pos) and light_two_clicked == True:
                         light_two_clicked = False
                         items -= 1
                         print("light two")
 
-                    if lightthreeArea.collidepoint(event.pos) and light_three_clicked == True:
+                    if light_three_area.collidepoint(event.pos) and light_three_clicked == True:
                         light_three_clicked = False
                         items -= 1
                         print("light three")
@@ -95,7 +96,6 @@ def level_one():
         if items <= 0:
             level_one_explain()
 
-                    
     pygame.quit()
 
 
@@ -105,16 +105,21 @@ def level_one_explain():
     while run:
         WIN.blit(WHITE, (0, 0))
 
-        explanation = explain_font.render("Good job on passing the first test.", 1, BLACK)
-        explanation_1 = explain_font.render("You successfully identified the lights on, the running water, and the recycling.", 1, BLACK)
-        explanation_2 = explain_font.render("Turning the lights off when not in use helps reduce carbon emissions and other greenhouse gases.", 1, BLACK)
-        explanation_3 = explain_font.render("Turning off running water when not in use can help save water and conserve energy.", 1 , BLACK)
-        explanation_4 = explain_font.render("You shouldn't put recycling in the trash because stuff like that will take long to break down,", 1, BLACK)
-        explanation_5 = explain_font.render("and recycling helps to reuse unused plastic and other things.", 1, BLACK)
-        next_level = explain_font.render("Press enter to go the next level...", 1, BLACK)
+        explanation = explain_font.render("Good job on passing the first test.", True, BLACK)
+        explanation_1 = explain_font.render(
+            "You successfully identified the lights on, the running water, and the recycling.", True, BLACK)
+        explanation_2 = explain_font.render(
+            "Turning the lights off when not in use helps reduce carbon emissions and other greenhouse gases.", True,
+            BLACK)
+        explanation_3 = explain_font.render(
+            "Turning off running water when not in use can help save water and conserve energy.", True, BLACK)
+        explanation_4 = explain_font.render(
+            "You shouldn't put recycling in the trash because stuff like that will take long to break down,", True, BLACK)
+        explanation_5 = explain_font.render("and recycling helps to reuse unused plastic and other things.", True, BLACK)
+        next_level = explain_font.render("Press enter to go the next level...", True, BLACK)
 
         WIN.blit(explanation, (WIDTH // 2 - explanation.get_width() // 2, 75))
-        WIN.blit(explanation_1, (WIDTH //  2 - explanation_1.get_width() // 2, 125))
+        WIN.blit(explanation_1, (WIDTH // 2 - explanation_1.get_width() // 2, 125))
         WIN.blit(explanation_2, (WIDTH // 2 - explanation_2.get_width() // 2, 175))
         WIN.blit(explanation_3, (WIDTH // 2 - explanation_3.get_width() // 2, 225))
         WIN.blit(explanation_4, (WIDTH // 2 - explanation_4.get_width() // 2, 275))
@@ -128,15 +133,17 @@ def level_one_explain():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     pass
-        
+
     pygame.quit()
 
 
 def level_two():
     print("hi")
 
+
 def main():
-    level_one()     
+    level_one()
+
 
 # makes sure it will open the main loop first
 if __name__ == "__main__":
