@@ -10,12 +10,20 @@ FPS = 60
 BLACK = (0, 0, 0)
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Escape Room")
+GREEN = (0, 255, 55)
+
+# all of the images for the project
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'house.jpg')), (WIDTH, HEIGHT))
 RECYCLING_BIN = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'bin.PNG')), (40, 70))
 SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png')), (50, 75))
 WHITE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
+PLASTIC_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'plastic_bottle.png')), (45, 100))
+REUSABLE_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'reusable_bottle.png')), (32, 100))
+
+# The fonts for the projects
 LIVES_FONT = pygame.font.SysFont("comicsans", 25)
 RIDDLE_FONT = pygame.font.SysFont("comicsans", 28)
+EXPLAIN_FONT = pygame.font.SysFont("comicsans", 25)
 
 
 def level_one():
@@ -68,6 +76,7 @@ def level_one():
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    # Checking to see if all of the items have been clicked and reduce the amount of corrects items
                     if bin_area.collidepoint(event.pos) and bin_clicked == True:
                         bin_clicked = False
                         items -= 1
@@ -100,24 +109,27 @@ def level_one():
 
 
 def level_one_explain():
-    explain_font = pygame.font.SysFont("comicsans", 25)
     run = True
     while run:
         WIN.blit(WHITE, (0, 0))
 
-        explanation = explain_font.render("Good job on passing the first test.", True, BLACK)
-        explanation_1 = explain_font.render(
+        # Rendering all the text on the screen
+        explanation = EXPLAIN_FONT.render("Good job on passing the first test.", True, BLACK)
+        explanation_1 = EXPLAIN_FONT.render(
             "You successfully identified the lights on, the running water, and the recycling.", True, BLACK)
-        explanation_2 = explain_font.render(
+        explanation_2 = EXPLAIN_FONT.render(
             "Turning the lights off when not in use helps reduce carbon emissions and other greenhouse gases.", True,
             BLACK)
-        explanation_3 = explain_font.render(
+        explanation_3 = EXPLAIN_FONT.render(
             "Turning off running water when not in use can help save water and conserve energy.", True, BLACK)
-        explanation_4 = explain_font.render(
-            "You shouldn't put recycling in the trash because stuff like that will take long to break down,", True, BLACK)
-        explanation_5 = explain_font.render("and recycling helps to reuse unused plastic and other things.", True, BLACK)
-        next_level = explain_font.render("Press enter to go the next level...", True, BLACK)
+        explanation_4 = EXPLAIN_FONT.render(
+            "You shouldn't put recycling in the trash because stuff like that will take long to break down,", True,
+            BLACK)
+        explanation_5 = EXPLAIN_FONT.render("and recycling helps to reuse unused plastic and other things.", True,
+                                            BLACK)
+        next_level = EXPLAIN_FONT.render("Press enter to go the next level...", True, BLACK)
 
+        # Actually displaying the text to the screen
         WIN.blit(explanation, (WIDTH // 2 - explanation.get_width() // 2, 75))
         WIN.blit(explanation_1, (WIDTH // 2 - explanation_1.get_width() // 2, 125))
         WIN.blit(explanation_2, (WIDTH // 2 - explanation_2.get_width() // 2, 175))
@@ -127,18 +139,39 @@ def level_one_explain():
         WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 375))
 
         pygame.display.update()
+
+        # Looping through the different events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    pass
+                    level_two()
 
     pygame.quit()
 
 
 def level_two():
-    print("hi")
+    def window():
+        WIN.blit(WHITE, (0, 0))
+
+        pygame.draw.circle(WIN, GREEN, (670, 300), 100)
+        WIN.blit(PLASTIC_BOTTLE, (650, 275))
+
+        pygame.draw.circle(WIN, GREEN, (270, 300), 100)
+        WIN.blit(REUSABLE_BOTTLE, (250, 275))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        # Looping through the different events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+    pygame.quit()
 
 
 def main():
