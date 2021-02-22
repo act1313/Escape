@@ -58,7 +58,7 @@ def level_one():
 
     run = True
     items = 5
-
+    # whether or not the item was clicked so we won't click it again and deduct from the items variable
     bin_clicked = True
     sink_clicked = True
     light_one_clicked = True
@@ -146,23 +146,45 @@ def level_one_explain():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    level_two()
+                    level_two_question_one()
 
     pygame.quit()
 
 
-def level_two():
+def level_two_question_one():
+    # the hit boxes for the answers
+    reusable_bottle_area = pygame.Rect(620, 250, 100, 100)
+    plastic_bottle_area = pygame.Rect(205, 250, 100, 100)
+
     def window():
         WIN.blit(WHITE, (0, 0))
 
-        pygame.draw.circle(WIN, GREEN, (670, 300), 100)
-        WIN.blit(PLASTIC_BOTTLE, (650, 275))
+        question_font = pygame.font.SysFont("comicsans", 60)
+        text_font = pygame.font.SysFont("comicsans", 30)
+        lives_font = pygame.font.SysFont("comicsans", 40)
 
-        pygame.draw.circle(WIN, GREEN, (270, 300), 100)
-        WIN.blit(REUSABLE_BOTTLE, (250, 275))
+        question = question_font.render("Which is better to use?", True, BLACK)
+        text = text_font.render("Reusable", True, BLACK)
+        text_2 = text_font.render("Plastic", True, BLACK)
+        lives_text = lives_font.render(f"Lives: {lives}", True, BLACK)
+
+        pygame.draw.circle(WIN, GREEN, (670, 300), 100)
+        WIN.blit(REUSABLE_BOTTLE, (650, 275))
+
+        pygame.draw.circle(WIN, GREEN, (255, 300), 100)
+        WIN.blit(PLASTIC_BOTTLE, (225, 275))
+
+        WIN.blit(question, (WIDTH // 2 - question.get_width() // 2, 10))
+        WIN.blit(text, (715 - text.get_width(), 225))
+        WIN.blit(text_2, (285 - text_2.get_width(), 225))
+        WIN.blit(lives_text, (WIDTH - 125, 10))
 
         pygame.display.update()
 
+    # whether or not the item was clicked so we won't click it again and deduct lives and increment level again
+    reusable_bottle_clicked = True
+    plastic_bottle_clicked = True
+    lives = 3
     run = True
     while run:
         window()
@@ -170,8 +192,23 @@ def level_two():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    # checking to see if we clicked the button
+                    if reusable_bottle_area.collidepoint(event.pos) and reusable_bottle_clicked == True:
+                        reusable_bottle_clicked = False
+                        level_two_question_two()
+
+                    if plastic_bottle_area.collidepoint(event.pos) and plastic_bottle_clicked == True:
+                        plastic_bottle_clicked = False
+                        lives -= 1
+                        level_two_question_two()
 
     pygame.quit()
+
+
+def level_two_question_two():
+    pass
 
 
 def main():
