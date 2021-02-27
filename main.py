@@ -161,6 +161,7 @@ def level_two_question_one():
 
     def window():
 <<<<<<< HEAD
+<<<<<<< HEAD
         if level_one_play:
             stage_1()
 
@@ -171,6 +172,10 @@ def level_two_question_one():
 
     def stage_1():
         WIN.blit(WHITE, (0, 0))
+=======
+        WIN.blit(WHITE, (0, 0))
+
+>>>>>>> parent of 5db5126 (did some more add straws)
 =======
         WIN.blit(WHITE, (0, 0))
 
@@ -195,6 +200,7 @@ def level_two_question_one():
         WIN.blit(text_2, (285 - text_2.get_width(), 225))
         WIN.blit(lives_text, (WIDTH - 125, 10))
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     def stage_2():
         WIN.blit(WHITE, (0, 0))
@@ -228,6 +234,13 @@ def level_two_question_one():
     reusable_bottle_clicked = True
     plastic_bottle_clicked = True
 >>>>>>> parent of 5db5126 (did some more add straws)
+=======
+        pygame.display.update()
+
+    # whether or not the item was clicked so we won't click it again and deduct lives and increment level again
+    reusable_bottle_clicked = True
+    plastic_bottle_clicked = True
+>>>>>>> parent of 5db5126 (did some more add straws)
     lives = 3
     run = True
     while run:
@@ -240,6 +253,7 @@ def level_two_question_one():
                 if event.button == 1:
                     # checking to see if we clicked the button
 <<<<<<< HEAD
+<<<<<<< HEAD
                     if reusable_bottle_area.collidepoint(event.pos) and bottle_clicked:
                         bottle_clicked = False
                         level_one_play = False
@@ -250,10 +264,16 @@ def level_two_question_one():
                         reusable_bottle_clicked = False
                         level_two_question_two()
 >>>>>>> parent of 5db5126 (did some more add straws)
+=======
+                    if reusable_bottle_area.collidepoint(event.pos) and reusable_bottle_clicked == True:
+                        reusable_bottle_clicked = False
+                        level_two_question_two()
+>>>>>>> parent of 5db5126 (did some more add straws)
 
                     if plastic_bottle_area.collidepoint(event.pos) and plastic_bottle_clicked == True:
                         plastic_bottle_clicked = False
                         lives -= 1
+<<<<<<< HEAD
 <<<<<<< HEAD
                         level_one_play = False
                         level_two_play = True
@@ -267,6 +287,9 @@ def level_two_question_one():
                     if paper_straw_area.collidepoint(event.pos) and straw_clicked:
                         straw_clicked = False
                         level_two_play = False
+=======
+                        level_two_question_two()
+>>>>>>> parent of 5db5126 (did some more add straws)
 =======
                         level_two_question_two()
 >>>>>>> parent of 5db5126 (did some more add straws)
