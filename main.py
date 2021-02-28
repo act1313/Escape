@@ -1,6 +1,7 @@
 # import all of the packages it will need
 import pygame
 import os
+import time
 
 pygame.font.init()
 
@@ -19,6 +20,7 @@ SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png
 WHITE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
 PLASTIC_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'plastic_bottle.png')), (45, 100))
 REUSABLE_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'reusable_bottle.png')), (32, 100))
+PLASTIC_STRAW = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'straw.png')), (100, 70))
 
 # The fonts for the projects
 LIVES_FONT = pygame.font.SysFont("comicsans", 25)
@@ -159,15 +161,6 @@ def level_two_question_one():
     def window():
         WIN.blit(WHITE, (0, 0))
 
-        if level_one_play:
-            stage_1()
-
-        elif level_two_play:
-            stage_2()
-
-        pygame.display.update()
-
-    def stage_1():
         question_font = pygame.font.SysFont("comicsans", 60)
         text_font = pygame.font.SysFont("comicsans", 30)
         lives_font = pygame.font.SysFont("comicsans", 40)
@@ -175,7 +168,7 @@ def level_two_question_one():
         question = question_font.render("Which is better to use?", True, BLACK)
         text = text_font.render("Reusable", True, BLACK)
         text_2 = text_font.render("Plastic", True, BLACK)
-        lives_text = lives_font.render(f"Lives: {lives}", True, BLACK)
+        lives_text = lives_font.render(f"Lives: {level_two_question_one.lives}", True, BLACK)
 
         pygame.draw.circle(WIN, GREEN, (670, 300), 100)
         WIN.blit(REUSABLE_BOTTLE, (650, 275))
@@ -188,32 +181,11 @@ def level_two_question_one():
         WIN.blit(text_2, (285 - text_2.get_width(), 225))
         WIN.blit(lives_text, (WIDTH - 125, 10))
 
-    def stage_2():
-        question_font = pygame.font.SysFont("comicsans", 60)
-        text_font = pygame.font.SysFont("comicsans", 30)
-        lives_font = pygame.font.SysFont("comicsans", 40)
-
-        question = question_font.render("Which is better to use?", True, BLACK)
-        text = text_font.render("Test", True, BLACK)
-        text_2 = text_font.render("Test", True, BLACK)
-        lives_text = lives_font.render(f"Lives: {lives}", True, BLACK)
-
-        pygame.draw.circle(WIN, GREEN, (670, 300), 100)
-        WIN.blit(REUSABLE_BOTTLE, (650, 275))
-
-        pygame.draw.circle(WIN, GREEN, (255, 300), 100)
-        WIN.blit(PLASTIC_BOTTLE, (225, 275))
-
-        WIN.blit(question, (WIDTH // 2 - question.get_width() // 2, 10))
-        WIN.blit(text, (715 - text.get_width(), 225))
-        WIN.blit(text_2, (285 - text_2.get_width(), 225))
-        WIN.blit(lives_text, (WIDTH - 125, 10))
+        pygame.display.update()
 
     # whether or not the item was clicked so we won't click it again and deduct lives and increment level again
-    bottle_clicked = True
-    lives = 3
-    level_one_play = True
-    level_two_play = False
+    bottle_clickable = True
+    level_two_question_one.lives = 3
     run = True
     while run:
         window()
@@ -224,18 +196,70 @@ def level_two_question_one():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # checking to see if we clicked the button
-                    if reusable_bottle_area.collidepoint(event.pos) and bottle_clicked:
-                        bottle_clicked = False
-                        level_one_play = False
-                        level_two_play = True
+                    if reusable_bottle_area.collidepoint(event.pos) and bottle_clickable:
+                        bottle_clickable = False
+                        level_two_question_two()
 
-                    if plastic_bottle_area.collidepoint(event.pos) and bottle_clicked:
-                        bottle_clicked = False
-                        lives -= 1
-                        level_one_play = False
-                        level_two_play = True
+                    if plastic_bottle_area.collidepoint(event.pos) and bottle_clickable:
+                        bottle_clickable = False
+                        level_two_question_one.lives -= 1
+                        level_two_question_two()
 
     pygame.quit()
+
+
+def level_two_question_two():
+    plastic_straw_area = pygame.Rect(620, 250, 100, 100)
+    paper_straw_area = pygame.Rect(205, 250, 100, 100)
+    def window():
+        WIN.blit(WHITE, (0, 0))
+
+        question_font = pygame.font.SysFont("comicsans", 50)
+        text_font = pygame.font.SysFont("comicsans", 30)
+        lives_font = pygame.font.SysFont("comicsans", 40)
+
+        question = question_font.render("Which type of straw is better to use?", True, BLACK)
+        text_2 = text_font.render("Plastic", True, BLACK)
+        text = text_font.render("Paper", True, BLACK)
+        lives_text = lives_font.render(f"Lives: {level_two_question_one.lives}", True, BLACK)
+
+        # drawing the straw and circle
+        pygame.draw.circle(WIN, GREEN, (670, 300), 100)
+        WIN.blit(PLASTIC_STRAW, (630, 275))
+
+        pygame.draw.circle(WIN, GREEN, (255, 300), 100)
+        WIN.blit(PLASTIC_STRAW, (205, 275))
+
+        WIN.blit(question, (WIDTH // 2 - question.get_width() // 2, 10))
+        WIN.blit(text, (285 - text_2.get_width(), 225))
+        WIN.blit(text_2, (700 - text.get_width(), 225))
+        WIN.blit(lives_text, (WIDTH - 125, 10))
+
+        pygame.display.update()
+
+    run = True
+    straw_clickable = True
+    while run:
+        window()
+        straw_clicked = True
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if plastic_straw_area.collidepoint(event.pos) and straw_clickable:
+                        straw_clickable = False
+                        level_two_question_one.lives -= 1
+                        level_two_question_three()
+
+                    if paper_straw_area.collidepoint(event.pos) and straw_clickable:
+                        straw_clickable = False
+                        level_two_question_three()
+
+    pygame.quit()
+
+def level_two_question_three():
+    print("good")
 
 
 def main():
