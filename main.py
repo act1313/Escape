@@ -19,7 +19,6 @@ SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png
 WHITE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
 PLASTIC_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'plastic_bottle.png')), (45, 100))
 REUSABLE_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'reusable_bottle.png')), (32, 100))
-PLASTIC_STRAW = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'plastic_straw.png')), (108, 75))
 
 # The fonts for the projects
 LIVES_FONT = pygame.font.SysFont("comicsans", 25)
@@ -78,27 +77,27 @@ def level_one():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # Checking to see if all of the items have been clicked and reduce the amount of corrects items
-                    if bin_area.collidepoint(event.pos) and bin_clicked == True:
+                    if bin_area.collidepoint(event.pos) and bin_clicked:
                         bin_clicked = False
                         items -= 1
                         print("bin")
 
-                    if sink_area.collidepoint(event.pos) and sink_clicked == True:
+                    if sink_area.collidepoint(event.pos) and sink_clicked:
                         sink_clicked = False
                         items -= 1
                         print("sink")
 
-                    if light_one_area.collidepoint(event.pos) and light_one_clicked == True:
+                    if light_one_area.collidepoint(event.pos) and light_one_clicked:
                         light_one_clicked = False
                         items -= 1
                         print("light one")
 
-                    if light_two_area.collidepoint(event.pos) and light_two_clicked == True:
+                    if light_two_area.collidepoint(event.pos) and light_two_clicked:
                         light_two_clicked = False
                         items -= 1
                         print("light two")
 
-                    if light_three_area.collidepoint(event.pos) and light_three_clicked == True:
+                    if light_three_area.collidepoint(event.pos) and light_three_clicked:
                         light_three_clicked = False
                         items -= 1
                         print("light three")
@@ -156,13 +155,10 @@ def level_two_question_one():
     # the hit boxes for the answers
     reusable_bottle_area = pygame.Rect(620, 250, 100, 100)
     plastic_bottle_area = pygame.Rect(205, 250, 100, 100)
-    paper_straw_area = pygame.Rect(620, 250, 100, 100)
-    plastic_straw_area = pygame.Rect(205, 250, 100, 100)
 
     def window():
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+        WIN.blit(WHITE, (0, 0))
+
         if level_one_play:
             stage_1()
 
@@ -172,19 +168,6 @@ def level_two_question_one():
         pygame.display.update()
 
     def stage_1():
-        WIN.blit(WHITE, (0, 0))
-=======
-        WIN.blit(WHITE, (0, 0))
-
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-        WIN.blit(WHITE, (0, 0))
-
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-        WIN.blit(WHITE, (0, 0))
-
->>>>>>> parent of 5db5126 (did some more add straws)
         question_font = pygame.font.SysFont("comicsans", 60)
         text_font = pygame.font.SysFont("comicsans", 30)
         lives_font = pygame.font.SysFont("comicsans", 40)
@@ -205,56 +188,32 @@ def level_two_question_one():
         WIN.blit(text_2, (285 - text_2.get_width(), 225))
         WIN.blit(lives_text, (WIDTH - 125, 10))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     def stage_2():
-        WIN.blit(WHITE, (0, 0))
         question_font = pygame.font.SysFont("comicsans", 60)
         text_font = pygame.font.SysFont("comicsans", 30)
         lives_font = pygame.font.SysFont("comicsans", 40)
 
         question = question_font.render("Which is better to use?", True, BLACK)
-        text = text_font.render("Paper", True, BLACK)
-        text_2 = text_font.render("Plastic", True, BLACK)
+        text = text_font.render("Test", True, BLACK)
+        text_2 = text_font.render("Test", True, BLACK)
         lives_text = lives_font.render(f"Lives: {lives}", True, BLACK)
 
         pygame.draw.circle(WIN, GREEN, (670, 300), 100)
-        WIN.blit(PLASTIC_STRAW, (635, 275))
+        WIN.blit(REUSABLE_BOTTLE, (650, 275))
 
         pygame.draw.circle(WIN, GREEN, (255, 300), 100)
-        WIN.blit(PLASTIC_STRAW, (200, 275))
+        WIN.blit(PLASTIC_BOTTLE, (225, 275))
 
         WIN.blit(question, (WIDTH // 2 - question.get_width() // 2, 10))
-        WIN.blit(text, (700 - text.get_width(), 225))
-        WIN.blit(text_2, (280 - text_2.get_width(), 225))
+        WIN.blit(text, (715 - text.get_width(), 225))
+        WIN.blit(text_2, (285 - text_2.get_width(), 225))
         WIN.blit(lives_text, (WIDTH - 125, 10))
 
     # whether or not the item was clicked so we won't click it again and deduct lives and increment level again
     bottle_clicked = True
-    straw_clicked = False
-=======
-        pygame.display.update()
-
-    # whether or not the item was clicked so we won't click it again and deduct lives and increment level again
-    reusable_bottle_clicked = True
-    plastic_bottle_clicked = True
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-        pygame.display.update()
-
-    # whether or not the item was clicked so we won't click it again and deduct lives and increment level again
-    reusable_bottle_clicked = True
-    plastic_bottle_clicked = True
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-        pygame.display.update()
-
-    # whether or not the item was clicked so we won't click it again and deduct lives and increment level again
-    reusable_bottle_clicked = True
-    plastic_bottle_clicked = True
->>>>>>> parent of 5db5126 (did some more add straws)
     lives = 3
+    level_one_play = True
+    level_two_play = False
     run = True
     while run:
         window()
@@ -265,63 +224,18 @@ def level_two_question_one():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # checking to see if we clicked the button
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                     if reusable_bottle_area.collidepoint(event.pos) and bottle_clicked:
                         bottle_clicked = False
                         level_one_play = False
                         level_two_play = True
-                        straw_clicked = True
-=======
-                    if reusable_bottle_area.collidepoint(event.pos) and reusable_bottle_clicked == True:
-                        reusable_bottle_clicked = False
-                        level_two_question_two()
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-                    if reusable_bottle_area.collidepoint(event.pos) and reusable_bottle_clicked == True:
-                        reusable_bottle_clicked = False
-                        level_two_question_two()
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-                    if reusable_bottle_area.collidepoint(event.pos) and reusable_bottle_clicked == True:
-                        reusable_bottle_clicked = False
-                        level_two_question_two()
->>>>>>> parent of 5db5126 (did some more add straws)
 
-                    if plastic_bottle_area.collidepoint(event.pos) and plastic_bottle_clicked == True:
-                        plastic_bottle_clicked = False
+                    if plastic_bottle_area.collidepoint(event.pos) and bottle_clicked:
+                        bottle_clicked = False
                         lives -= 1
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                         level_one_play = False
                         level_two_play = True
-                        straw_clicked = True
-
-                    if plastic_straw_area.collidepoint(event.pos) and straw_clicked:
-                        straw_clicked = False
-                        lives -= 1
-                        level_two_play = False
-
-                    if paper_straw_area.collidepoint(event.pos) and straw_clicked:
-                        straw_clicked = False
-                        level_two_play = False
-=======
-                        level_two_question_two()
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-                        level_two_question_two()
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-                        level_two_question_two()
->>>>>>> parent of 5db5126 (did some more add straws)
 
     pygame.quit()
-
-
-def level_two_question_two():
-    pass
 
 
 def main():

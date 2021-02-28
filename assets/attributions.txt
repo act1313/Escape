@@ -17,18 +17,8 @@ The author of the reusable water bottle is http://clipart-library.com/clipart/wa
 It is water-bottle-clipart #3111435
 
 The author of the plastic water bottle is http://clipart-library.com/clipart/2088793.htm
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 It is Plastic Bottle Cliparts #2516509
 
 The author of the plastic straw is https://www.pinclipart.com/pindetail/iRbRRww_biodegradable-plastic-straws-clipart/
-=======
-It is Plastic Bottle Cliparts #2516509
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-It is Plastic Bottle Cliparts #2516509
->>>>>>> parent of 5db5126 (did some more add straws)
-=======
-It is Plastic Bottle Cliparts #2516509
->>>>>>> parent of 5db5126 (did some more add straws)
+
+The author of the metal straw is https://www.kindpng.com/picc/m/160-1605892_stainless-steel-straw-png-transparent-png.png
