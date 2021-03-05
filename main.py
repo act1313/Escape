@@ -6,7 +6,7 @@ import time
 pygame.font.init()
 
 # all of the constants for the project
-WIDTH, HEIGHT = 900, 500
+WIDTH, HEIGHT = 1800, 1000
 FPS = 60
 BLACK = (0, 0, 0)
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -15,12 +15,13 @@ GREEN = (0, 255, 55)
 
 # all of the images for the project
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'house.jpg')), (WIDTH, HEIGHT))
-RECYCLING_BIN = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'bin.PNG')), (40, 70))
-SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png')), (50, 75))
+RECYCLING_BIN = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'bin.PNG')), (80, 140))
+SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png')), (100, 150))
 WHITE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
-PLASTIC_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'plastic_bottle.png')), (45, 100))
-REUSABLE_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'reusable_bottle.png')), (32, 100))
-PLASTIC_STRAW = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'straw.png')), (100, 70))
+PLASTIC_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'plastic_bottle.png')), (90, 200))
+REUSABLE_BOTTLE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'reusable_bottle.png')), (64, 200))
+PLASTIC_STRAW = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'straw.png')), (200, 140))
+CAR = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'car.png')), (200, 100))
 
 # The fonts for the projects
 LIVES_FONT = pygame.font.SysFont("comicsans", 25)
@@ -29,6 +30,7 @@ EXPLAIN_FONT = pygame.font.SysFont("comicsans", 25)
 
 
 def level_one():
+    # TODO reconfigure the level to be bigger and reset the hitboxes
     def draw_items():
         # render the images to display
         WIN.blit(RECYCLING_BIN, (WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height()))
@@ -129,7 +131,7 @@ def level_one_explain():
             BLACK)
         explanation_5 = EXPLAIN_FONT.render("and recycling helps to reuse unused plastic and other things.", True,
                                             BLACK)
-        next_level = EXPLAIN_FONT.render("Press enter to go the next level...", True, BLACK)
+        next_level = EXPLAIN_FONT.render("Please press enter to go the next level...", True, BLACK)
 
         # Actually displaying the text to the screen
         WIN.blit(explanation, (WIDTH // 2 - explanation.get_width() // 2, 75))
@@ -211,6 +213,7 @@ def level_two_question_one():
 def level_two_question_two():
     plastic_straw_area = pygame.Rect(620, 250, 100, 100)
     paper_straw_area = pygame.Rect(205, 250, 100, 100)
+
     def window():
         WIN.blit(WHITE, (0, 0))
 
@@ -258,8 +261,108 @@ def level_two_question_two():
 
     pygame.quit()
 
+
 def level_two_question_three():
-    print("good")
+    normal_car_area = pygame.Rect(620, 250, 100, 100)
+    electric_car_area = pygame.Rect(205, 250, 100, 100)
+
+    def window():
+        WIN.blit(WHITE, (0, 0))
+
+        question_font = pygame.font.SysFont("comicsans", 37)
+        text_font = pygame.font.SysFont("comicsans", 27)
+        lives_font = pygame.font.SysFont("comicsans", 40)
+
+        question = question_font.render("Which type of car is better for the environment?", True, BLACK)
+        text_2 = text_font.render("Electric Car", True, BLACK)
+        text = text_font.render("Gas Fueled Car", True, BLACK)
+        lives_text = lives_font.render(f"Lives: {level_two_question_one.lives}", True, BLACK)
+
+        # drawing the straw and circle
+        pygame.draw.circle(WIN, GREEN, (670, 300), 100)
+        WIN.blit(CAR, (630, 275))
+
+        pygame.draw.circle(WIN, GREEN, (255, 300), 100)
+        WIN.blit(CAR, (205, 275))
+
+        WIN.blit(question, (WIDTH // 2 - question.get_width() // 2, 10))
+        WIN.blit(text, (290 - text_2.get_width(), 225))
+        WIN.blit(text_2, (760 - text.get_width(), 225))
+        WIN.blit(lives_text, (WIDTH - 125, 10))
+
+        pygame.display.update()
+
+    car_clickable = True
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if normal_car_area.collidepoint(event.pos) and car_clickable:
+                        car_clickable = False
+                        level_two_explain()
+
+                    if electric_car_area.collidepoint(event.pos) and car_clickable:
+                        car_clickable = False
+                        level_two_question_one.lives -= 1
+                        if level_two_question_one.lives <= 0:
+                            game_over()
+                        elif level_two_question_one.lives < 0:
+                            level_two_explain()
+
+    pygame.quit()
+
+
+def level_two_explain():
+    run = True
+    while run:
+        WIN.blit(WHITE, (0, 0))
+
+        # Rendering all the text on the screen
+        explanation = EXPLAIN_FONT.render("Good job on passing the second test.", True, BLACK)
+        explanation_1 = EXPLAIN_FONT.render(
+            "You successfully answered which option was better for the environment", True, BLACK)
+        explanation_2 = EXPLAIN_FONT.render(
+            "Using a reusable water bottle over a plastic one helps reduce plastic which then leads to the ocean", True,
+            BLACK)
+        explanation_3 = EXPLAIN_FONT.render(
+            "Using a paper straw over a plastic straw also helps reduce plastic", True, BLACK)
+        explanation_4 = EXPLAIN_FONT.render(
+            "Using an electric car over a normal car helps reduce about 4.6 metric tons of CO2 per year for each car",
+            True,
+            BLACK)
+        next_level = EXPLAIN_FONT.render("Please press enter to go the next level...", True, BLACK)
+
+        # Actually displaying the text to the screen
+        WIN.blit(explanation, (WIDTH // 2 - explanation.get_width() // 2, 75))
+        WIN.blit(explanation_1, (WIDTH // 2 - explanation_1.get_width() // 2, 125))
+        WIN.blit(explanation_2, (WIDTH // 2 - explanation_2.get_width() // 2, 175))
+        WIN.blit(explanation_3, (WIDTH // 2 - explanation_3.get_width() // 2, 225))
+        WIN.blit(explanation_4, (WIDTH // 2 - explanation_4.get_width() // 2, 275))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 325))
+
+        pygame.display.update()
+
+        # Looping through the different events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_three()
+
+    pygame.quit()
+
+
+def level_three():
+    print("all good")
+
+
+def game_over():
+    print("game over")
 
 
 def main():
