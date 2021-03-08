@@ -384,7 +384,7 @@ def level_three():
 def game_over():
     restart = False
     run = True
-    while run: 
+    while run:  
         if restart == False:
             restart = True
             font = pygame.font.SysFont("comicsans", 250)
