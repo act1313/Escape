@@ -37,6 +37,7 @@ def level_one():
         WIN.blit(RECYCLING_BIN, (WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height()))
         WIN.blit(SINK, (1280, 440))
         WIN.blit(LIGHT_SWITCH, (465, 400))
+        WIN.blit(LIGHT_SWITCH, (550, 775))
 
     def window():
         WIN.blit(BACKGROUND, (0, 0))
@@ -59,15 +60,17 @@ def level_one():
     bin_area = pygame.Rect(WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height(), 80, 140)
     sink_area = pygame.Rect(1280, 440, 100, 150)
     light_one_area = pygame.Rect(750, 200, 380, 70)
+    light_switch_one_area = pygame.Rect(465, 400, 30, 35)
+    light_switch_two_area = pygame.Rect(550, 775, 30, 35)
 
     run = True
-    items = 3
+    items = 5
     # whether or not the item was clicked so we won't click it again and deduct from the items variable
     bin_clicked = True
     sink_clicked = True
     light_one_clicked = True
-    light_two_clicked = True
-    light_three_clicked = True
+    light_switch_one_clicked = True
+    light_switch_two_clicked = True
 
     clock = pygame.time.Clock()
     while run:
@@ -95,6 +98,16 @@ def level_one():
                         light_one_clicked = False
                         items -= 1
                         print("light one")
+
+                    if light_switch_one_area.collidepoint(event.pos) and light_switch_one_clicked:
+                        light_switch_one_clicked = False
+                        items -= 1
+                        print("light switch one")
+
+                    if light_switch_two_area.collidepoint(event.pos) and light_switch_two_clicked:
+                        light_switch_two_clicked = False
+                        items -= 1
+                        print("light switch two")
 
 
         if items <= 0:
@@ -354,11 +367,43 @@ def level_two_explain():
 
 
 def level_three():
-    print("all good")
+    def window():
+        WIN.blit(WHITE, (0, 0))
+        pygame.display.update()
+
+    run = True
+    while run: 
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+    pygame.quit()
 
 
 def game_over():
-    print("game over")
+    restart = False
+    run = True
+    while run: 
+        if restart == False:
+            restart = True
+            font = pygame.font.SysFont("comicsans", 250)
+            WIN.blit(WHITE, (0, 0))
+
+            text = font.render("Game Over!", True, BLACK)
+            WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 500))
+
+            pygame.display.update()
+        elif restart:
+            time.sleep(3.14)
+            level_two_question_one()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+    pygame.quit()
+
 
 
 def main():
