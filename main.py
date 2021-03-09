@@ -361,14 +361,21 @@ def level_two_explain():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    level_three()
+                    level_three_starting_explain()
 
     pygame.quit()
 
 
-def level_three():
+def level_three_starting_explain():
     def window():
+        font = pygame.font.SysFont("comicsans", 50)
+
+        text = font.render("For the final level, you will be answering riddles about different types of renewable energy.", True, BLACK)
+
         WIN.blit(WHITE, (0, 0))
+
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 500))
+
         pygame.display.update()
 
     run = True
