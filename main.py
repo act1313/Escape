@@ -15,6 +15,7 @@ GREEN = (0, 255, 55)
 
 # all of the images for the project
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'house.jpg')), (WIDTH, HEIGHT))
+HOME = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'home.jpg')), (850, 850))
 RECYCLING_BIN = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'bin.PNG')), (80, 140))
 SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png')), (100, 150))
 WHITE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
@@ -31,7 +32,6 @@ EXPLAIN_FONT = pygame.font.SysFont("comicsans", 50)
 
 
 def level_one():
-    # TODO reconfigure the level to be bigger and reset the hitboxes
     def draw_items():
         # render the images to display
         WIN.blit(RECYCLING_BIN, (WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height()))
@@ -59,16 +59,14 @@ def level_one():
     # the hit boxes for the areas
     bin_area = pygame.Rect(WIDTH - RECYCLING_BIN.get_width(), HEIGHT - RECYCLING_BIN.get_height(), 80, 140)
     sink_area = pygame.Rect(1280, 440, 100, 150)
-    light_one_area = pygame.Rect(750, 200, 380, 70)
     light_switch_one_area = pygame.Rect(465, 400, 30, 35)
     light_switch_two_area = pygame.Rect(550, 775, 30, 35)
 
     run = True
-    items = 5
+    items = 4
     # whether or not the item was clicked so we won't click it again and deduct from the items variable
     bin_clicked = True
     sink_clicked = True
-    light_one_clicked = True
     light_switch_one_clicked = True
     light_switch_two_clicked = True
 
@@ -94,11 +92,6 @@ def level_one():
                         items -= 1
                         print("sink")
 
-                    if light_one_area.collidepoint(event.pos) and light_one_clicked:
-                        light_one_clicked = False
-                        items -= 1
-                        print("light one")
-
                     if light_switch_one_area.collidepoint(event.pos) and light_switch_one_clicked:
                         light_switch_one_clicked = False
                         items -= 1
@@ -108,7 +101,6 @@ def level_one():
                         light_switch_two_clicked = False
                         items -= 1
                         print("light switch two")
-
 
         if items <= 0:
             level_one_explain()
@@ -253,7 +245,6 @@ def level_two_question_two():
     straw_clickable = True
     while run:
         window()
-        straw_clicked = True
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -370,19 +361,371 @@ def level_three_starting_explain():
     def window():
         font = pygame.font.SysFont("comicsans", 50)
 
-        text = font.render("For the final level, you will be answering riddles about different types of renewable energy.", True, BLACK)
+        text = font.render(
+            "For the final level, you will be answering questions about different types of renewable energy.", True,
+            BLACK)
+        text_2 = font.render("Renewable energy, or clean energy, is energy that comes from natural sources", True,
+                             BLACK)
+        text_2b = font.render("or processes that are constantly replenished.", True, BLACK)
+        text_3 = font.render("Press enter to go to the first question.", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
 
-        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 500))
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 350))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 450))
+        WIN.blit(text_2b, (WIDTH // 2 - text_2b.get_width() // 2, 550))
+        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 650))
 
         pygame.display.update()
 
     run = True
-    while run: 
+    while run:
         window()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_three_question_one()
+
+    pygame.quit()
+
+
+def level_three_question_one():
+    def window():
+        riddle_font = pygame.font.SysFont("comicsans", 40)
+        font = pygame.font.SysFont("comicsans", 50)
+
+        riddle = riddle_font.render(
+            "What type of on energy is used on many houses today that is the most abundant energy source in the world?",
+            True, BLACK)
+        riddle_2 = riddle_font.render("(Hint: Click one through four to answer.)", True, BLACK)
+
+        solar = font.render("1) Solar Energy", True, BLACK)
+        wind = font.render("2) Wind Energy", True, BLACK)
+        hydro = font.render("3) Hydro Energy", True, BLACK)
+        geothermal = font.render("4) Geothermal Energy", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+
+        WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
+        WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
+
+        WIN.blit(solar, (50, 750))
+        WIN.blit(wind, (500, 750))
+        WIN.blit(hydro, (950, 750))
+        WIN.blit(geothermal, (1400, 750))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    level_three_question_one_explain()
+                if event.key == pygame.K_2:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_3:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_4:
+                    print("Incorrect! Please try again.")
+
+    pygame.quit()
+
+
+def level_three_question_one_explain():
+    def window():
+        font = pygame.font.SysFont("comicsans", 50)
+
+        text = font.render("Solar energy, if you didn't already know, is energy from the sun.", True, BLACK)
+        text_1 = font.render("Solar energy is also the most abundant source of energy because today there are", True,
+                             BLACK)
+        text_2 = font.render("89 petawatts(one petawatt is one quadrillion watts)", True, BLACK)
+        text_3 = font.render("of potential solar energy production available on earth.", True, BLACK)
+        next_level = font.render("Press enter to go to the next question...", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 350))
+        WIN.blit(text_1, (WIDTH // 2 - text_1.get_width() // 2, 425))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 500))
+        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 575))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 650))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_three_question_two()
+
+    pygame.quit()
+
+
+def level_three_question_two():
+    def window():
+        riddle_font = pygame.font.SysFont("comicsans", 40)
+        font = pygame.font.SysFont("comicsans", 50)
+
+        riddle = riddle_font.render(
+            "What type of on energy is used to as 74% of Washtingon's power (the state) and is commonly acquired with a dam?",
+            True, BLACK)
+        riddle_2 = riddle_font.render("(Hint: Click one through four to answer.)", True, BLACK)
+
+        solar = font.render("1) Solar Energy", True, BLACK)
+        wind = font.render("2) Wind Energy", True, BLACK)
+        hydro = font.render("3) Hydro Energy", True, BLACK)
+        geothermal = font.render("4) Geothermal Energy", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+
+        WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
+        WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
+
+        WIN.blit(solar, (50, 750))
+        WIN.blit(wind, (500, 750))
+        WIN.blit(hydro, (950, 750))
+        WIN.blit(geothermal, (1400, 750))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_2:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_3:
+                    level_three_question_two_explain()
+                if event.key == pygame.K_4:
+                    print("Incorrect! Please try again.")
+
+    pygame.quit()
+
+
+def level_three_question_two_explain():
+    def window():
+        font = pygame.font.SysFont("comicsans", 50)
+
+        text = font.render("Hydro power, if you didn't already know, is energy generated from flowing water", True,
+                           BLACK)
+        text_1 = font.render("Hydro power is also one of the most inexpensive sources of energy.", True,
+                             BLACK)
+        text_2 = font.render("It is also one of the more widely used power source because", True, BLACK)
+        text_3 = font.render("it is used for electricity in all of the states except (Delaware and Mississippi).", True,
+                             BLACK)
+        next_level = font.render("Press enter to go to the next question...", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 350))
+        WIN.blit(text_1, (WIDTH // 2 - text_1.get_width() // 2, 425))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 500))
+        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 575))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 650))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_three_question_three()
+
+    pygame.quit()
+
+
+def level_three_question_three():
+    def window():
+        riddle_font = pygame.font.SysFont("comicsans", 40)
+        font = pygame.font.SysFont("comicsans", 50)
+
+        riddle = riddle_font.render(
+            "What type of energy is harnessed in large scale farms and produces no greenhouse gases?",
+            True, BLACK)
+        riddle_2 = riddle_font.render("(Hint: Click one through four to answer.)", True, BLACK)
+
+        solar = font.render("1) Solar Energy", True, BLACK)
+        wind = font.render("2) Wind Energy", True, BLACK)
+        hydro = font.render("3) Hydro Energy", True, BLACK)
+        geothermal = font.render("4) Geothermal Energy", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+
+        WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
+        WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
+
+        WIN.blit(solar, (50, 750))
+        WIN.blit(wind, (500, 750))
+        WIN.blit(hydro, (950, 750))
+        WIN.blit(geothermal, (1400, 750))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_2:
+                    level_three_question_three_explain()
+                if event.key == pygame.K_3:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_4:
+                    print("Incorrect! Please try again.")
+
+    pygame.quit()
+
+
+def level_three_question_three_explain():
+    def window():
+        font = pygame.font.SysFont("comicsans", 49)
+
+        text = font.render("Wind power, if you didn't already know, is energy harnessed from the wind in the form of wind turbines.", True, BLACK)
+        text_1 = font.render("Wind turbines do no requires fuel and do not emit any pollutants or gases, but", True, BLACK)
+        text_2 = font.render("resources are used and small amounts of pollutants are produced during the creation of turbines.", True, BLACK)
+        text_3 = font.render("One manufacturer of turbines found that they save on average 93,000 tons of CO2 over a coal power plant.", True, BLACK)
+        next_level = font.render("Press enter to go to the next question...", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 350))
+        WIN.blit(text_1, (WIDTH // 2 - text_1.get_width() // 2, 425))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 500))
+        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 575))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 650))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_three_question_four()
+
+    pygame.quit()
+
+
+def level_three_question_four():
+    def window():
+        riddle_font = pygame.font.SysFont("comicsans", 40)
+        font = pygame.font.SysFont("comicsans", 50)
+
+        riddle = riddle_font.render(
+            "What type of on energy is used on many houses today that is the most abundant energy source in the world?",
+            True, BLACK)
+        riddle_2 = riddle_font.render("(Hint: Click one through four to answer.)", True, BLACK)
+
+        solar = font.render("1) Solar Energy", True, BLACK)
+        wind = font.render("2) Wind Energy", True, BLACK)
+        hydro = font.render("3) Hydro Energy", True, BLACK)
+        geothermal = font.render("4) Geothermal Energy", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+
+        WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
+        WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
+
+        WIN.blit(solar, (50, 750))
+        WIN.blit(wind, (500, 750))
+        WIN.blit(hydro, (950, 750))
+        WIN.blit(geothermal, (1400, 750))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    level_three_question_four_explain()
+                if event.key == pygame.K_2:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_3:
+                    print("Incorrect! Please try again.")
+                if event.key == pygame.K_4:
+                    print("Incorrect! Please try again.")
+
+    pygame.quit()
+
+
+def level_three_question_four_explain():
+    def window():
+        font = pygame.font.SysFont("comicsans", 50)
+
+        text = font.render("Solar energy, if you didn't already know, is energy from the sun.", True, BLACK)
+        text_1 = font.render("Solar energy is also the most abundant source of energy because today there are", True,
+                             BLACK)
+        text_2 = font.render("89 petawatts(one petawatt is one quadrillion watts)", True, BLACK)
+        text_3 = font.render("of potential solar energy production available on earth.", True, BLACK)
+        next_level = font.render("Press enter to go to the next question...", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 350))
+        WIN.blit(text_1, (WIDTH // 2 - text_1.get_width() // 2, 425))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 500))
+        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 575))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 650))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_three_question_two()
+
+    pygame.quit()
+
+
+def end_game():
+    def window():
+        WIN.blit(WHITE, (0, 0))
+        pygame.display.update()
+
+    run = False
+    while run:
+        window()
+        for event in pygame.event.get():
+            if pygame.event == pygame.QUIT:
                 run = False
 
     pygame.quit()
@@ -391,8 +734,8 @@ def level_three_starting_explain():
 def game_over():
     restart = False
     run = True
-    while run:  
-        if restart == False:
+    while run:
+        if not restart:
             restart = True
             font = pygame.font.SysFont("comicsans", 250)
             WIN.blit(WHITE, (0, 0))
@@ -410,7 +753,6 @@ def game_over():
                 run = False
 
     pygame.quit()
-
 
 
 def main():
