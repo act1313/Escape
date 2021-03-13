@@ -641,7 +641,7 @@ def level_three_question_four():
         font = pygame.font.SysFont("comicsans", 50)
 
         riddle = riddle_font.render(
-            "What type of on energy is used on many houses today that is the most abundant energy source in the world?",
+            "This type of energy is the least common the list, and most expensive.",
             True, BLACK)
         riddle_2 = riddle_font.render("(Hint: Click one through four to answer.)", True, BLACK)
 
@@ -671,35 +671,39 @@ def level_three_question_four():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
-                    level_three_question_four_explain()
+                    print("Incorrect! Please try again.")
                 if event.key == pygame.K_2:
                     print("Incorrect! Please try again.")
                 if event.key == pygame.K_3:
                     print("Incorrect! Please try again.")
                 if event.key == pygame.K_4:
-                    print("Incorrect! Please try again.")
+                    level_three_question_four_explain()
 
     pygame.quit()
 
 
 def level_three_question_four_explain():
     def window():
-        font = pygame.font.SysFont("comicsans", 50)
+        font = pygame.font.SysFont("comicsans", 45)
 
-        text = font.render("Solar energy, if you didn't already know, is energy from the sun.", True, BLACK)
-        text_1 = font.render("Solar energy is also the most abundant source of energy because today there are", True,
+        text = font.render("Geothermal energy is energy harnessed from geothermal heat", True, BLACK)
+        text_1 = font.render("Geothermal heat is that below the earth's crust.", True,
                              BLACK)
-        text_2 = font.render("89 petawatts(one petawatt is one quadrillion watts)", True, BLACK)
-        text_3 = font.render("of potential solar energy production available on earth.", True, BLACK)
+        text_2 = font.render("This heat sometimes releases naturally, resulting in volcanic eruptions, geysers, etc.", True, BLACK)
+        text_3 = font.render("This heat can be harnessed to produce geothermal energy by using steam that comes from", True, BLACK)
+        text_3b = font.render("the heated water pumping below the surface,", True, BLACK)
+        text_4 = font.render("which then rises to the top and can be used to operate a turbine.", True, BLACK)
         next_level = font.render("Press enter to go to the next question...", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
 
-        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 350))
-        WIN.blit(text_1, (WIDTH // 2 - text_1.get_width() // 2, 425))
-        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 500))
-        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 575))
-        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 650))
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 240))
+        WIN.blit(text_1, (WIDTH // 2 - text_1.get_width() // 2, 300))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 360))
+        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 420))
+        WIN.blit(text_3b, (WIDTH // 2 - text_3b.get_width() // 2, 480))
+        WIN.blit(text_4, (WIDTH // 2 - text_4.get_width() // 2, 540))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 600))
 
         pygame.display.update()
 
@@ -711,7 +715,7 @@ def level_three_question_four_explain():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    level_three_question_two()
+                    end_game()
 
     pygame.quit()
 
