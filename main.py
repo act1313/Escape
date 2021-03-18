@@ -15,7 +15,8 @@ GREEN = (0, 255, 55)
 
 # all of the images for the project
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'house.jpg')), (WIDTH, HEIGHT))
-HOME = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'home.jpg')), (850, 850))
+WORLD = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'earth.png')), (850, 850))
+BULB = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'light_bulb.png')), (850, 850))
 RECYCLING_BIN = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'bin.PNG')), (80, 140))
 SINK = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'sink.png')), (100, 150))
 WHITE = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'white.jpg')), (WIDTH, HEIGHT))
@@ -29,6 +30,71 @@ CAR = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'car.png')
 LIVES_FONT = pygame.font.SysFont("comicsans", 50)
 RIDDLE_FONT = pygame.font.SysFont("comicsans", 56)
 EXPLAIN_FONT = pygame.font.SysFont("comicsans", 50)
+
+
+def main_menu():
+    def window():
+        font = pygame.font.SysFont("comicsans", 75)
+        title_font = pygame.font.SysFont("comicsans", 150)
+
+        WIN.blit(WHITE, (0, 0))
+
+        title = title_font.render("Save the Earth Escape Room", True, BLACK)
+        start = font.render("Start", True, BLACK)
+
+        pygame.draw.circle(WIN, GREEN, (WIDTH // 2, 675), 150)
+
+        WIN.blit(WORLD, (WIDTH // 2 - WORLD.get_width() // 2, 100))
+        WIN.blit(title, (WIDTH // 2 - title.get_width() // 2, 350))
+        WIN.blit(start, (WIDTH // 2 - start.get_width() // 2, 650))
+
+        pygame.display.update()
+
+    start_area = pygame.Rect(WIDTH // 2 - 75, 600, 150, 150)
+    run = True
+    clickable = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if start_area.collidepoint(event.pos) and clickable:
+                        clickable = False
+                        level_one_starting_explain()
+
+
+def level_one_starting_explain():
+    def window():
+        font = pygame.font.SysFont("comicsans", 50)
+
+        text = font.render("For the first level you must click on items in the picture that are using", True,
+                           BLACK)
+        text_2 = font.render("unnecessary resources and/or are not friendly to the environment.", True, BLACK)
+        text_3 = font.render("If you can't figure it out, press 1 to get the answer.", True, BLACK)
+        next_level = font.render("Press enter to go to the first level...", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 375))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 425))
+        WIN.blit(text_3, (WIDTH // 2 - text_3.get_width() // 2, 475))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 525))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_one()
+
+    pygame.quit()
 
 
 def level_one():
@@ -79,6 +145,9 @@ def level_one():
             # the game is able to close when we hit the close button
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_1:
+                    level_one_explain()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # Checking to see if all of the items have been clicked and reduce the amount of corrects items
@@ -141,6 +210,37 @@ def level_one_explain():
         pygame.display.update()
 
         # Looping through the different events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    level_two_starting_explain()
+
+    pygame.quit()
+
+
+def level_two_starting_explain():
+    def window():
+        font = pygame.font.SysFont("comicsans", 50)
+
+        text = font.render("For the second level you will choose which item it more friendly to the environment.", True,
+                           BLACK)
+        text_2 = font.render("You will have three lives, and if you run out of lives, you will start the level over.",
+                             True, BLACK)
+        next_level = font.render("Press enter to go to the first level...", True, BLACK)
+
+        WIN.blit(WHITE, (0, 0))
+
+        WIN.blit(text, (WIDTH // 2 - text.get_width() // 2, 400))
+        WIN.blit(text_2, (WIDTH // 2 - text_2.get_width() // 2, 475))
+        WIN.blit(next_level, (WIDTH // 2 - next_level.get_width() // 2, 550))
+
+        pygame.display.update()
+
+    run = True
+    while run:
+        window()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -324,14 +424,15 @@ def level_two_explain():
         # Rendering all the text on the screen
         explanation = EXPLAIN_FONT.render("Good job on passing the second test.", True, BLACK)
         explanation_1 = EXPLAIN_FONT.render(
-            "You successfully answered which option was better for the environment", True, BLACK)
+            "You successfully answered which option was better for the environment.", True, BLACK)
         explanation_2 = EXPLAIN_FONT.render(
-            "Using a reusable water bottle over a plastic one helps reduce plastic which then leads to the ocean", True,
+            "Using a reusable water bottle over a plastic one helps reduce plastic which then leads to the ocean.",
+            True,
             BLACK)
         explanation_3 = EXPLAIN_FONT.render(
-            "Using a paper straw over a plastic straw also helps reduce plastic", True, BLACK)
+            "Using a paper straw over a plastic straw also helps reduce plastic.", True, BLACK)
         explanation_4 = EXPLAIN_FONT.render(
-            "Using an electric car over a normal car helps reduce about 4.6 metric tons of CO2 per year for each car",
+            "Using an electric car over a normal car helps reduce about 4.6 metric tons of CO2 per year for each car.",
             True,
             BLACK)
         next_level = EXPLAIN_FONT.render("Please press enter to go the next level...", True, BLACK)
@@ -367,7 +468,7 @@ def level_three_starting_explain():
         text_2 = font.render("Renewable energy, or clean energy, is energy that comes from natural sources", True,
                              BLACK)
         text_2b = font.render("or processes that are constantly replenished.", True, BLACK)
-        text_3 = font.render("Press enter to go to the first question.", True, BLACK)
+        text_3 = font.render("Press enter to go to the first question...", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
 
@@ -407,7 +508,7 @@ def level_three_question_one():
         geothermal = font.render("4) Geothermal Energy", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
-        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+        WIN.blit(BULB, (WIDTH // 2 - BULB.get_width() // 2, 200))
 
         WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
         WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
@@ -478,7 +579,7 @@ def level_three_question_two():
         font = pygame.font.SysFont("comicsans", 50)
 
         riddle = riddle_font.render(
-            "What type of on energy is used to as 74% of Washtingon's power (the state) and is commonly acquired with a dam?",
+            "What type of on energy is used to as 74% of Washington's power (the state) and is commonly acquired with a dam?",
             True, BLACK)
         riddle_2 = riddle_font.render("(Hint: Click one through four to answer.)", True, BLACK)
 
@@ -488,7 +589,7 @@ def level_three_question_two():
         geothermal = font.render("4) Geothermal Energy", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
-        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+        WIN.blit(BULB, (WIDTH // 2 - BULB.get_width() // 2, 200))
 
         WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
         WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
@@ -523,12 +624,12 @@ def level_three_question_two_explain():
     def window():
         font = pygame.font.SysFont("comicsans", 50)
 
-        text = font.render("Hydro power, if you didn't already know, is energy generated from flowing water", True,
+        text = font.render("Hydro power is energy generated from flowing water.", True,
                            BLACK)
         text_1 = font.render("Hydro power is also one of the most inexpensive sources of energy.", True,
                              BLACK)
         text_2 = font.render("It is also one of the more widely used power source because", True, BLACK)
-        text_3 = font.render("it is used for electricity in all of the states except (Delaware and Mississippi).", True,
+        text_3 = font.render("it is used for electricity in all of the states except Delaware and Mississippi.", True,
                              BLACK)
         next_level = font.render("Press enter to go to the next question...", True, BLACK)
 
@@ -571,7 +672,7 @@ def level_three_question_three():
         geothermal = font.render("4) Geothermal Energy", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
-        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+        WIN.blit(BULB, (WIDTH // 2 - BULB.get_width() // 2, 200))
 
         WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
         WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
@@ -606,10 +707,15 @@ def level_three_question_three_explain():
     def window():
         font = pygame.font.SysFont("comicsans", 49)
 
-        text = font.render("Wind power, if you didn't already know, is energy harnessed from the wind in the form of wind turbines.", True, BLACK)
-        text_1 = font.render("Wind turbines do no requires fuel and do not emit any pollutants or gases, but", True, BLACK)
-        text_2 = font.render("resources are used and small amounts of pollutants are produced during the creation of turbines.", True, BLACK)
-        text_3 = font.render("One manufacturer of turbines found that they save on average 93,000 tons of CO2 over a coal power plant.", True, BLACK)
+        text = font.render("Wind power is energy harnessed from the wind in the form of wind turbines.", True, BLACK)
+        text_1 = font.render("Wind turbines do not require fuel and do not emit any pollutants or gases, but", True,
+                             BLACK)
+        text_2 = font.render(
+            "resources are used and small amounts of pollutants are produced during the creation of turbines.", True,
+            BLACK)
+        text_3 = font.render(
+            "One manufacturer of turbines found that they save on average 93,000 tons of CO2 over a coal power plant.",
+            True, BLACK)
         next_level = font.render("Press enter to go to the next question...", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
@@ -641,7 +747,7 @@ def level_three_question_four():
         font = pygame.font.SysFont("comicsans", 50)
 
         riddle = riddle_font.render(
-            "This type of energy is the least common the list, and most expensive.",
+            "What type of energy is the least common the list and the most expensive?",
             True, BLACK)
         riddle_2 = riddle_font.render("(Hint: Click one through four to answer.)", True, BLACK)
 
@@ -651,7 +757,7 @@ def level_three_question_four():
         geothermal = font.render("4) Geothermal Energy", True, BLACK)
 
         WIN.blit(WHITE, (0, 0))
-        WIN.blit(HOME, (WIDTH // 2 - HOME.get_width() // 2, 200))
+        WIN.blit(BULB, (WIDTH // 2 - BULB.get_width() // 2, 200))
 
         WIN.blit(riddle, (WIDTH // 2 - riddle.get_width() // 2, 20))
         WIN.blit(riddle_2, (WIDTH // 2 - riddle_2.get_width() // 2, 70))
@@ -686,11 +792,13 @@ def level_three_question_four_explain():
     def window():
         font = pygame.font.SysFont("comicsans", 45)
 
-        text = font.render("Geothermal energy is energy harnessed from geothermal heat", True, BLACK)
+        text = font.render("Geothermal energy is energy harnessed from geothermal heat.", True, BLACK)
         text_1 = font.render("Geothermal heat is that below the earth's crust.", True,
                              BLACK)
-        text_2 = font.render("This heat sometimes releases naturally, resulting in volcanic eruptions, geysers, etc.", True, BLACK)
-        text_3 = font.render("This heat can be harnessed to produce geothermal energy by using steam that comes from", True, BLACK)
+        text_2 = font.render("This heat sometimes releases naturally, resulting in volcanic eruptions, geysers, etc.",
+                             True, BLACK)
+        text_3 = font.render("This heat can be harnessed to produce geothermal energy by using steam that comes from",
+                             True, BLACK)
         text_3b = font.render("the heated water pumping below the surface,", True, BLACK)
         text_4 = font.render("which then rises to the top and can be used to operate a turbine.", True, BLACK)
         next_level = font.render("Press enter to go to the next question...", True, BLACK)
@@ -722,15 +830,34 @@ def level_three_question_four_explain():
 
 def end_game():
     def window():
+        win_font = pygame.font.SysFont("comicsans", 250)
+        font = pygame.font.SysFont("comicsans", 75)
+
         WIN.blit(WHITE, (0, 0))
+
+        win = win_font.render("YOU WIN!", True, BLACK)
+        menu = font.render("Main menu", True, BLACK)
+
+        pygame.draw.circle(WIN, GREEN, (WIDTH // 2, 675), 150)
+
+        WIN.blit(win, (WIDTH // 2 - win.get_width() // 2, 300))
+        WIN.blit(menu, (WIDTH // 2 - menu.get_width() // 2, 650))
+
         pygame.display.update()
 
-    run = False
+    menu_area = pygame.Rect(WIDTH // 2 - 75, 600, 150, 150)
+    run = True
+    clickable = True
     while run:
         window()
         for event in pygame.event.get():
-            if pygame.event == pygame.QUIT:
+            if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if menu_area.collidepoint(event.pos) and clickable:
+                        clickable = False
+                        main_menu()
 
     pygame.quit()
 
@@ -760,7 +887,7 @@ def game_over():
 
 
 def main():
-    level_one()
+    main_menu()
 
 
 # makes sure it will open the main loop first
